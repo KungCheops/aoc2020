@@ -15,12 +15,12 @@ def part1():
             prev.add(val)
 
 def part2():
-    sorted_input = sorted(get_input())
-    for i in range(len(sorted_input) - 2):
-        for j in range (i + 1, len(sorted_input) - 1):
-            for k in range (j + 1, len(sorted_input)):
-                if sorted_input[i] + sorted_input[j] + sorted_input[k] == 2020:
-                    return sorted_input[i] * sorted_input[j] * sorted_input[k]
+    input_list = list(get_input())
+    input_set = set(get_input())
+    for i in range(len(input_list) - 2):
+        for j in range (i + 1, len(input_list) - 1):
+                if 2020 - (input_list[i] + input_list[j]) in input_set:
+                    return input_list[i] * input_list[j] * (2020 - (input_list[i] + input_list[j]))
 
 if __name__ == '__main__':
     if sys.argv[1] == '1':
