@@ -16,8 +16,8 @@ def part1():
 
 def part2():
     sorted_input = sorted(get_input())
-    for i in range(len(sorted_input)):
-        for j in range (i + 1, len(sorted_input)):
+    for i in range(len(sorted_input) - 2):
+        for j in range (i + 1, len(sorted_input) - 1):
             for k in range (j + 1, len(sorted_input)):
                 if sorted_input[i] + sorted_input[j] + sorted_input[k] == 2020:
                     return sorted_input[i] * sorted_input[j] * sorted_input[k]
