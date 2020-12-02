@@ -3,11 +3,14 @@ import sys
 def get_input():
     with open(sys.argv[2], 'r') as f:
         for line in f:
-            number, token, value = line.split()
-            low, high = map(int, number.split('-'))
-            token = token[0]
-            yield low, high, token, value
+            yield parse_line(line)
     return
+
+def parse_line(line):
+    number, token, value = line.split()
+    low, high = map(int, number.split('-'))
+    token = token[0]
+    return low, high, token, value
 
 def part1():
     counter = 0
