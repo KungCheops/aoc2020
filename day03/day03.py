@@ -1,16 +1,23 @@
 import sys
 
-def get_input():
+def get_input1():
     with open(sys.argv[2], 'r') as f:
-        for line in f:
-            yield parse_line(line)
+        for i, line in enumerate(f):
+            yield parse_line1(line, i)
     return
 
-def parse_line(line):
-    return line
+def parse_line1(line, line_no):
+    char = line[(line_no * 3) % (len(line) - 1)]
+    if char == '#':
+        return 1
+    if char == '.':
+        return 0
 
 def part1():
-    pass
+    counter = 0
+    for num in get_input1():
+        counter += num
+    return counter
 
 def part2():
     pass
