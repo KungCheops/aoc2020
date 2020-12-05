@@ -30,7 +30,10 @@ def part1():
     return max([get_seat_id(row_num, col_num) for row_num, col_num in get_input()])
 
 def part2():
-    pass
+    sorted_ids = sorted([get_seat_id(row_num, col_num) for row_num, col_num in get_input()])
+    for i in range(len(sorted_ids)):
+        if sorted_ids[i] == sorted_ids[i + 1] - 2:
+            return sorted_ids[i] + 1
 
 if __name__ == '__main__':
     if sys.argv[1] == '1':
