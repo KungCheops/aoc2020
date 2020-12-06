@@ -6,31 +6,23 @@ def get_input():
             yield parse_line(line)
     return
 
-def parse_binary_number(number_string, one_char, zero_char):
+def parse_binary_number(number_string, one_chars):
     mult = 1
     sum = 0
     for c in reversed(number_string):
-        if c == one_char:
+        if c in one_chars:
             sum += mult
         mult *= 2
     return sum
 
 def parse_line(line):
-    line = line.strip()
-    row_string = line[:7]
-    col_string = line[7:]
-    row_num = parse_binary_number(row_string, 'B', 'F')
-    col_num = parse_binary_number(col_string, 'R', 'L')
-    return row_num, col_num
-
-def get_seat_id(row_num, col_num):
-    return row_num * 8 + col_num
+    return parse_binary_number(line.strip(), ('B', 'R'))
 
 def part1():
-    return max([get_seat_id(row_num, col_num) for row_num, col_num in get_input()])
+    return max(get_input())
 
 def part2():
-    sorted_ids = sorted([get_seat_id(row_num, col_num) for row_num, col_num in get_input()])
+    sorted_ids = sorted(get_input())
     for i in range(len(sorted_ids)):
         if sorted_ids[i] == sorted_ids[i + 1] - 2:
             return sorted_ids[i] + 1
