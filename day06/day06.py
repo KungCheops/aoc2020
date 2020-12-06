@@ -6,7 +6,7 @@ def get_input_1():
         accumulator = set()
         for line in f:
             char_set = parse_line(line)
-            if char_set:
+            if len(char_set) != 0:
                 accumulator |= parse_line(line)
             else:
                 yield accumulator
@@ -18,7 +18,7 @@ def get_input_2():
         accumulator = set(string.ascii_lowercase)
         for line in f:
             char_set = parse_line(line)
-            if char_set:
+            if len(char_set) != 0:
                 accumulator &= parse_line(line)
             else:
                 yield accumulator
