@@ -46,10 +46,9 @@ def parse_line(line):
     operands = map(int, operands)
     return Op(op_name, *operands)
 
+# returns false if it loops and true if it terminates
 def run_until_termination(computer):
     instructions_run = set()
-    # print(comp)
-    # print(instructions_run)
     while True:
         if computer.instruction_counter in instructions_run:
             return False
@@ -57,8 +56,6 @@ def run_until_termination(computer):
             return True
         instructions_run.add(computer.instruction_counter)
         computer.execute_instruction()
-        # print(comp)
-        # print(instructions_run)
     assert False, 'something went wrong'
 
 def part1():
