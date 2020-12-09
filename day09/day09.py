@@ -1,5 +1,44 @@
 import sys
 
+class Preamble():
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.__pointer = 0
+        self.__unsorted_list = [0] * self.capacity
+        self.__sorted_list = sorted(self.__unsorted_list)
+
+    def full(self):
+        return self.capacity < self.__pointer
+
+    def add(self, item):
+        self.__sorted_list[self.__sorted_list.index(self.__unsorted_list[self.__pointer % self.capacity])] = item
+        self.__sorted_list = sorted(self.__sorted_list)
+        self.__unsorted_list[self.__pointer % self.capacity] = item
+        self.__pointer += 1
+
+    def __str__(self):
+        return str(self.__sorted_list)
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __len__(self):
+        return min(self.__pointer, self.capacity)
+
+    def contains_sum(self, value):
+        min_index = 0
+        max_index = self.capacity - 1
+
+        while min_index < max_index:
+            if self.__sorted_list[min_index] + self.__sorted_list[max_index] == value:
+                return True
+            elif self.__sorted_list[min_index] + self.__sorted_list[max_index] < value:
+                min_index += 1
+            elif self.__sorted_list[min_index] + self.__sorted_list[max_index] > value:
+                max_index -= 1
+
+        return False
+
 def get_input():
     with open(sys.argv[2], 'r') as f:
         for line in f:
@@ -7,10 +46,15 @@ def get_input():
     return
 
 def parse_line(line):
-    return line
+    return int(line)
 
 def part1():
-    pass
+    preamble = Preamble(25)
+    for i in get_input():
+        if preamble.full():
+            if not preamble.contains_sum(i):
+                return i
+        preamble.add(i)
 
 def part2():
     pass
