@@ -55,6 +55,10 @@ def part1():
             if not preamble.contains_sum(i):
                 return i
         preamble.add(i)
+    if preamble.full():
+        if not preamble.contains_sum(i):
+            return i
+    assert False, 'No number found'
 
 def part2():
     pass
