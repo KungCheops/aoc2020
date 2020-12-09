@@ -58,10 +58,27 @@ def part1():
     if preamble.full():
         if not preamble.contains_sum(i):
             return i
-    assert False, 'No number found'
+    assert False, 'No number found.'
 
 def part2():
-    pass
+    bad_number = part1()
+    input_list = list(get_input())
+    for index, number in enumerate(input_list):
+        sum = number
+        index_2 = index
+        smallest = number
+        largest = number
+        while sum <= bad_number:
+            if sum == bad_number:
+                return smallest + largest
+            else:
+                index_2 += 1
+                sum += input_list[index_2]
+                if input_list[index_2] < smallest:
+                    smallest = input_list[index_2]
+                elif input_list[index_2] > largest:
+                    largest = input_list[index_2]
+    assert False, 'No contiguous sum found.'
 
 if __name__ == '__main__':
     if sys.argv[1] == '1':
