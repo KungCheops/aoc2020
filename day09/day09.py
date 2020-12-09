@@ -58,7 +58,7 @@ def part1():
     if preamble.full():
         if not preamble.contains_sum(i):
             return i
-    assert False, 'No number found.'
+    raise ValueError('No number found.')
 
 def part2():
     bad_number = part1()
@@ -78,7 +78,7 @@ def part2():
                     smallest = input_list[index_2]
                 elif input_list[index_2] > largest:
                     largest = input_list[index_2]
-    assert False, 'No contiguous sum found.'
+    raise ValueError('No contiguous sum found.')
 
 if __name__ == '__main__':
     if sys.argv[1] == '1':
