@@ -27,7 +27,7 @@ class JumpList():
         self.items = sorted(items)
         self.size = len(self.items)
         self.jump_length = jump_length
-        self.jumps_from_cache = [-1] * self.size
+        self.jumps_from_cache = [-1] * (self.size - 1)
         self.combinations_cache = [-1] * self.size
 
     def number_of_jumps_from(self, index):
