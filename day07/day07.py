@@ -33,20 +33,12 @@ def parse_line(line):
 
 def part1():
     _, parents, _ = get_input()
-    all_parents = set()
-    unprocessed = set()
-    unprocessed.add('shiny gold')
-    while len(unprocessed) > 0:
-        current_child = unprocessed.pop()
-        current_parents = parents[current_child]
-        for parent in current_parents:
-            if not parent in all_parents:
-                all_parents.add(parent)
-                unprocessed.add(parent)
-    return len(all_parents)
+    parent_set = bags_holding('shiny gold', parents)
+    return parent_set
 
 def bags_holding(bag_child, all_bag_parents):
-    return 1 + sum([bags_holding(parent_bag, all_bag_parents) for parent_bag in all_bag_parents])
+    bag_parents = all_bag_parents[bag_child]
+    return bag_child | sum([bags_holding(parent_bag, all_bag_parents) for parent_bag in all_bag_parents[bag_child]])
 
 def part2():
     all_bag_children, _, distances = get_input()
