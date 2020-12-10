@@ -50,7 +50,6 @@ def part2():
     sorted_joltages = sorted(joltages)
     sorted_joltages.append(sorted_joltages[-1] + 3)
     jump_list = [number_of_jumps_from(sorted_joltages, i) for i in range(len(sorted_joltages) - 1)]
-    print(jump_list)
     return jump_combinations(jump_list, 0)
 
 if __name__ == '__main__':
