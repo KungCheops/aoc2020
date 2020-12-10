@@ -22,34 +22,40 @@ def part1():
     print(jump_lengths)
     return jump_lengths[1] * jump_lengths[3]
 
-def number_of_jumps_from(items, index):
-    sum = 0
-    index_offset = 1
-    while index + index_offset < len(items) and items[index + index_offset] <= items[index] + 3:
-        sum += 1
-        index_offset += 1
-    return sum
+class JumpList():
+    def __init__(self, items, jump_length):
+        self.items = sorted(items)
+        self.jump_length = jump_length
+        self.jumps_from_cache = [-1] * len(items)
+        self.combinations_cache = [-1] * len(items)
 
-cache = dict()
+    def number_of_jumps_from(self, index):
+        if self.jumps_from_cache[index] > -1:
+            return self.jumps_from_cache[index]
+        sum = 0
+        index_offset = 1
+        while index + index_offset < len(self.items) and self.items[index + index_offset] <= self.items[index] + 3:
+            sum += 1
+            index_offset += 1
+        self.jumps_from_cache[index] = sum
+        return sum
 
-def jump_combinations(jump_list, index=0, depth=0):
-    if index in cache:
-        return cache[index]
-    possibilities = jump_list[index]
-    if index == len(jump_list) - 1:
-        cache[index] = 1
-        return 1
-    ret = sum([jump_combinations(jump_list, index + i + 1, depth + 1) for i in range(possibilities) if index + i + 1 < len(jump_list)])
-    cache[index] = ret
-    return ret
+    def total_combinations(self, index=0):
+        if self.combinations_cache[index] > -1:
+            return self.combinations_cache[index]
+        if index == len(self.items) - 1:
+            return 1
+        possible_jumps = self.number_of_jumps_from(index)
+        ret = sum([self.total_combinations(index + i + 1) for i in range(possible_jumps) if index + i + 1 < len(self.items)])
+        self.combinations_cache[index] = ret
+        return ret
 
 def part2():
     joltages = list(get_input())
     joltages.append(0)
-    sorted_joltages = sorted(joltages)
-    sorted_joltages.append(sorted_joltages[-1] + 3)
-    jump_list = [number_of_jumps_from(sorted_joltages, i) for i in range(len(sorted_joltages) - 1)]
-    return jump_combinations(jump_list, 0)
+    jump_list = JumpList(joltages, 3)
+    tot_combs = jump_list.total_combinations()
+    return tot_combs
 
 if __name__ == '__main__':
     if sys.argv[1] == '1':
