@@ -1,4 +1,5 @@
 import sys
+from collections import defaultdict
 
 def get_input():
     with open(sys.argv[2], 'r') as f:
@@ -7,10 +8,19 @@ def get_input():
     return
 
 def parse_line(line):
-    return line
+    return int(line)
 
 def part1():
-    pass
+    joltages = get_input()
+    jump_lengths = defaultdict(int)
+    current_joltage = 0
+    for joltage in sorted(joltages):
+        step = joltage - current_joltage
+        jump_lengths[step] += 1
+        current_joltage = joltage
+    jump_lengths[3] += 1
+    print(jump_lengths)
+    return jump_lengths[1] * jump_lengths[3]
 
 def part2():
     pass
