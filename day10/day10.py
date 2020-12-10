@@ -1,5 +1,8 @@
 import sys
 from collections import defaultdict
+import numpy as np
+import networkx as nx
+import matplotlib.pyplot as plt
 
 def get_input():
     with open(sys.argv[2], 'r') as f:
@@ -57,6 +60,18 @@ def part2():
     joltages.append(0)
     jump_list = JumpList(joltages, 3)
     tot_combs = jump_list.total_combinations()
+    G = nx.DiGraph()
+    positions = dict()
+    labels = dict()
+    for i, jump_length in enumerate(jump_list.jumps_from_cache):
+        positions[i] = [i, i%2]
+        labels[i] = f'{i}: {jump_list.combinations_cache[i]}'
+        for j in range(jump_length):
+            G.add_edge(i, i + j + 1)
+    # G = nx.relabel_nodes(G, labels)
+    A = nx.nx_agraph.to_agraph(G)
+    A.layout('circo')
+    A.draw(f'graph_{sys.argv[2][:-4]}.png')
     return tot_combs
 
 if __name__ == '__main__':
