@@ -22,8 +22,23 @@ def part1():
     print(jump_lengths)
     return jump_lengths[1] * jump_lengths[3]
 
+def possibilities_from(items, index):
+    sum = 0
+    index_offset = 1
+    while index + index_offset < len(items) and items[index + index_offset] <= items[index] + 3:
+        sum += 1
+        index_offset += 1
+    return sum
+
 def part2():
-    pass
+    joltages = list(get_input())
+    joltages.append(0)
+    sorted_joltages = sorted(joltages)
+    sorted_joltages.append(sorted_joltages[-1] + 3)
+    print(sorted_joltages)
+    for i in range(len(sorted_joltages)):
+        print(possibilities_from(sorted_joltages, i))
+    return
 
 if __name__ == '__main__':
     if sys.argv[1] == '1':
