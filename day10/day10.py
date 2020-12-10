@@ -25,16 +25,17 @@ def part1():
 class JumpList():
     def __init__(self, items, jump_length):
         self.items = sorted(items)
+        self.size = len(self.items)
         self.jump_length = jump_length
-        self.jumps_from_cache = [-1] * len(items)
-        self.combinations_cache = [-1] * len(items)
+        self.jumps_from_cache = [-1] * self.size
+        self.combinations_cache = [-1] * self.size
 
     def number_of_jumps_from(self, index):
         if self.jumps_from_cache[index] > -1:
             return self.jumps_from_cache[index]
         sum = 0
         index_offset = 1
-        while index + index_offset < len(self.items) and self.items[index + index_offset] <= self.items[index] + 3:
+        while index + index_offset < self.size and self.items[index + index_offset] <= self.items[index] + 3:
             sum += 1
             index_offset += 1
         self.jumps_from_cache[index] = sum
@@ -43,10 +44,10 @@ class JumpList():
     def total_combinations(self, index=0):
         if self.combinations_cache[index] > -1:
             return self.combinations_cache[index]
-        if index == len(self.items) - 1:
+        if index == self.size - 1:
             return 1
         possible_jumps = self.number_of_jumps_from(index)
-        ret = sum([self.total_combinations(index + i + 1) for i in range(possible_jumps) if index + i + 1 < len(self.items)])
+        ret = sum([self.total_combinations(index + i + 1) for i in range(possible_jumps) if index + i + 1 < self.size])
         self.combinations_cache[index] = ret
         return ret
 
