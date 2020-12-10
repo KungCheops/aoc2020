@@ -30,18 +30,17 @@ def number_of_jumps_from(items, index):
         index_offset += 1
     return sum
 
-precomputed = dict()
+cache = dict()
 
 def jump_combinations(jump_list, index=0, depth=0):
-    if index in precomputed:
-        return precomputed[index]
-    print(f'{index} {depth}    \r', end='', flush=True)
+    if index in cache:
+        return cache[index]
     possibilities = jump_list[index]
     if index == len(jump_list) - 1:
-        precomputed[index] = 1
+        cache[index] = 1
         return 1
     ret = sum([jump_combinations(jump_list, index + i + 1, depth + 1) for i in range(possibilities) if index + i + 1 < len(jump_list)])
-    precomputed[index] = ret
+    cache[index] = ret
     return ret
 
 def part2():
