@@ -45,6 +45,7 @@ class JumpList():
         if self.combinations_cache[index] > -1:
             return self.combinations_cache[index]
         if index == self.size - 1:
+            self.combinations_cache[index] = 1
             return 1
         possible_jumps = self.number_of_jumps_from(index)
         ret = sum([self.total_combinations(index + i + 1) for i in range(possible_jumps) if index + i + 1 < self.size])
