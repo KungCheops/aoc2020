@@ -10,6 +10,9 @@ class Ticket():
     def __repr__(self):
         return str(self.fields)
 
+    def __iter__(self):
+        return iter(self.fields)
+
 class TicketField():
     def __init__(self, tf_string):
         name, ranges = tf_string.split(':')
@@ -74,7 +77,54 @@ def part1():
     return sum(invalid_values)
 
 def part2():
-    pass
+    my_ticket, nearby_tickets, ticket_fields = parse_file()
+
+    valid_nearby_tickets = list()
+    for ticket in nearby_tickets:
+        ticket_valid = True
+        for value in ticket.fields:
+            value_valid = False
+            for ticket_field in ticket_fields:
+                if ticket_field.is_in_range(value):
+                    value_valid = True
+                    break
+            if not value_valid:
+                ticket_valid = False
+        if ticket_valid:
+            valid_nearby_tickets.append(ticket)
+
+    all_field_names = list()
+    for ticket_field in ticket_fields:
+        all_field_names.append(ticket_field.name)
+
+    ticket_field_values = list(zip(*valid_nearby_tickets)) # transpose the matrix
+    possibilities = dict()
+    for i in range(len(ticket_fields)):
+        possibilities[i] = set(ticket_field.name for ticket_field in ticket_fields)
+
+    for ticket_field in ticket_fields:
+        for i, values in enumerate(ticket_field_values):
+            for value in values:
+                if not ticket_field.is_in_range(value):
+                    possibilities[i].remove(ticket_field.name)
+                    break
+
+    field_positions = dict()
+    while len(field_positions) < len(possibilities):
+        for name, values in possibilities.items():
+            if len(values) == 1:
+                value = values.pop()
+                field_positions[value] = name
+                for values2 in possibilities.values():
+                    if value in values2:
+                        values2.remove(value)
+
+    ret = 1
+    for name, index in field_positions.items():
+        if name.startswith('departure'):
+            ret *= my_ticket.fields[index]
+
+    return ret
 
 if __name__ == '__main__':
     if sys.argv[1] == '1':
