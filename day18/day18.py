@@ -77,11 +77,10 @@ def to_postfix(input_string):
             while len(operator_stack) > 0 and operator_stack[len(operator_stack) - 1] != '(':
                 # pop the operator from the operator stack onto the output queue.
                 output_queue.append(operator_stack.pop())
-                # if there is a left parenthesis at the top of the operator stack, then:
-                if len(operator_stack) > 0 and operator_stack[len(operator_stack) - 1] == '(':
-                    # pop the operator from the operator stack and discard it
-                    operator_stack.pop()
-                    break
+            # if there is a left parenthesis at the top of the operator stack, then:
+            if len(operator_stack) > 0 and operator_stack[len(operator_stack) - 1] == '(':
+                # pop the operator from the operator stack and discard it
+                operator_stack.pop()
     # /* After while loop, if operator stack not null, pop everything to output queue */
     while len(operator_stack) > 0:
         output_queue.append(operator_stack.pop())
@@ -104,9 +103,9 @@ def to_postfix_2(input_string):
         elif char in ('+', '*'):
             # while there is an operator at the top of the operator stack
             # and the operator at the top of the operator stack is not a left parenthesis
+            # and ((the operator at the top of the operator stack has greater precedence)
+            # or (the operator at the top of the operator stack has equal precedence and the token is left associative))
             while len(operator_stack) > 0 and operator_stack[len(operator_stack) - 1] != '(' \
-                # and ((the operator at the top of the operator stack has greater precedence)
-                # or (the operator at the top of the operator stack has equal precedence and the token is left associative))
                 and not (operator_stack[len(operator_stack) - 1] == '*' and char == '+'):
                 # pop operators from the operator stack onto the output queue.
                 output_queue.append(operator_stack.pop())
@@ -122,11 +121,10 @@ def to_postfix_2(input_string):
             while len(operator_stack) > 0 and operator_stack[len(operator_stack) - 1] != '(':
                 # pop the operator from the operator stack onto the output queue.
                 output_queue.append(operator_stack.pop())
-                # if there is a left parenthesis at the top of the operator stack, then:
-                if len(operator_stack) > 0 and operator_stack[len(operator_stack) - 1] == '(':
-                    # pop the operator from the operator stack and discard it
-                    operator_stack.pop()
-                    break
+            # if there is a left parenthesis at the top of the operator stack, then:
+            if len(operator_stack) > 0 and operator_stack[len(operator_stack) - 1] == '(':
+                # pop the operator from the operator stack and discard it
+                operator_stack.pop()
     # /* After while loop, if operator stack not null, pop everything to output queue */
     while len(operator_stack) > 0:
         output_queue.append(operator_stack.pop())
