@@ -12,8 +12,6 @@ def parse_line(line, ):
 
 def match(string, rules, rule='0'):
     print(f'matching string={string}, rule={rule}')
-    if len(string) == 0:
-        return (True, string, rule)
     if isinstance(rule, str):
         if rule.isalpha():
             return (string[0] == rule, string[1:], rule)
@@ -22,12 +20,15 @@ def match(string, rules, rule='0'):
             return match_, rest, (rule, rule2)
     elif isinstance(rule, tuple):
         left_rule, right_rule = rule
-        left_match, rest, rule = match(string, rules, left_rule)
+        left_match, rest, new_rule = match(string, rules, left_rule)
+        print(left_match, rest, new_rule)
         if left_match:
-            return left_match, rest, rule
-        right_match, rest, rule = match(string, rules, right_rule)
-        if right_match:
-            return right_match, rest, rule
+            return left_match, rest, new_rule
+        else:
+            print('trying options 2')
+            right_match, rest, new_rule = match(string, rules, right_rule)
+            if right_match:
+                return right_match, rest, new_rule
         return False, string, rule
     elif isinstance(rule, list):
         rules_used = []
@@ -38,7 +39,7 @@ def match(string, rules, rule='0'):
             rules_used.append(rule2)
             if not match_:
                 return (False, string, rules_used)
-        return (True, string, rules_used)
+        return (len(string) == 0, string, rules_used)
 
 def count_matches(input):
     state = 0
@@ -60,6 +61,7 @@ def count_matches(input):
                 else:
                     rules[rule_number] = rule.split(' ')
         if state == 1:
+            print(line)
             match_, rest, rule = match(line, rules)
             if match_ and len(rest) == 0:
                 print(line, rule)
